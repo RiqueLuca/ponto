@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto - Controle de Jornada</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>⏱️ Ponto</h1>
+                <p class="subtitle">Controle de Jornada de Trabalho</p>
+            </div>
+            <div class="header-info">
+                <span id="currentDate" class="current-date"></span>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- Seção de Marcação Rápida -->
+            <section class="quick-punch">
+                <div class="punch-card">
+                    <div class="punch-status">
+                        <div class="status-indicator" id="statusIndicator"></div>
+                        <span id="statusText">Pronto para iniciar</span>
+                    </div>
+
+                    <div class="current-time">
+                        <span id="currentTime">00:00:00</span>
+                    </div>
+
+                    <button id="punchBtn" class="punch-button btn-in">
+                        <span class="btn-label">ENTRADA</span>
+                        <span class="btn-time" id="punchBtnTime">Clique para marcar</span>
+                    </button>
+
+                    <div class="punch-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Horas Trabalhadas</span>
+                            <span class="stat-value" id="workedHours">0h 0min</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Última Marcação</span>
+                            <span class="stat-value" id="lastPunch">--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Abas de Navegação -->
+            <nav class="tabs">
+                <button class="tab-button active" data-tab="today">Hoje</button>
+                <button class="tab-button" data-tab="history">Histórico</button>
+                <button class="tab-button" data-tab="reports">Relatórios</button>
+                <button class="tab-button" data-tab="settings">Configurações</button>
+            </nav>
+
+            <!-- Aba Hoje -->
+            <section id="today" class="tab-content active">
+                <div class="punches-list">
+                    <h2>Marcações de Hoje</h2>
+                    <div id="todayPunches" class="punches-container">
+                        <div class="empty-state">
+                            <p>Nenhuma marcação registrada hoje</p>
+                        </div>
+                    </div>
+
+                    <div class="punch-actions">
+                        <button class="btn-secondary" id="editTodayBtn">✏️ Editar Marcações</button>
+                        <button class="btn-danger" id="clearTodayBtn">🗑️ Limpar Dia</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Aba Histórico -->
+            <section id="history" class="tab-content">
+                <div class="history-filters">
+                    <input type="date" id="historyDateFilter" class="date-input">
+                    <select id="monthFilter" class="select-input">
+                        <option value="">Todos os Meses</option>
+                    </select>
+                </div>
+
+                <div id="historyContent" class="history-container">
+                    <div class="empty-state">
+                        <p>Nenhum registro encontrado</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Aba Relatórios -->
+            <section id="reports" class="tab-content">
+                <div class="reports-container">
+                    <div class="report-card">
+                        <h3>Semana Atual</h3>
+                        <div class="report-content" id="weeklyReport">
+                            <p class="loading">Carregando...</p>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <h3>Mês Atual</h3>
+                        <div class="report-content" id="monthlyReport">
+                            <p class="loading">Carregando...</p>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <h3>Resumo Geral</h3>
+                        <div class="report-content" id="summaryReport">
+                            <p class="loading">Carregando...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-actions">
+                    <button class="btn-secondary" id="exportCsvBtn">📊 Exportar CSV</button>
+                    <button class="btn-secondary" id="printReportBtn">🖨️ Imprimir</button>
+                </div>
+            </section>
+
+            <!-- Aba Configurações -->
+            <section id="settings" class="tab-content">
+                <div class="settings-container">
+                    <div class="setting-group">
+                        <h3>Jornada Padrão</h3>
+                        <div class="setting-item">
+                            <label for="workdayHours">Horas de trabalho por dia:</label>
+                            <input type="number" id="workdayHours" min="1" max="12" step="0.5" value="8">
+                            <span class="hint">horas</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <h3>Intervalo</h3>
+                        <div class="setting-item">
+                            <label for="breakDuration">Duração do intervalo:</label>
+                            <input type="number" id="breakDuration" min="0" max="120" step="5" value="60">
+                            <span class="hint">minutos</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <h3>Dados</h3>
+                        <div class="setting-item">
+                            <button class="btn-secondary" id="exportDataBtn">💾 Exportar Dados</button>
+                            <button class="btn-secondary" id="importDataBtn">📥 Importar Dados</button>
+                            <input type="file" id="importFile" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <h3>Segurança</h3>
+                        <div class="setting-item">
+                            <button class="btn-danger" id="clearAllBtn">🗑️ Limpar Todos os Dados</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal de Edição -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Editar Marcações</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body" id="editModalBody">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelEditBtn">Cancelar</button>
+                    <button class="btn-primary" id="saveEditBtn">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
